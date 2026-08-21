@@ -130,9 +130,10 @@ files in the tree, and **shall** report its node and edge counts.
 statements resolved to in-tree files, and references to a file by path in
 non-source artefacts such as documents, registries, and skill definitions.
 
-*Rationale: in an orchestrated system a large share of coupling is not an import.
-A file named as a subprocess target in a JSON registry breaks just as thoroughly
-when its interface changes, and an import-only graph cannot see it.*
+*Rationale: in an orchestrated system, coupling is not always an import. A file
+named as a subprocess target in a JSON registry breaks just as thoroughly when its
+interface changes, and an import-only graph cannot see it. No claim is made here
+about how common that is relative to imports.*
 
 **4.3** Where a module name is ambiguous — the same stem present at several paths
 — the analyser **shall** count the ambiguity and report it, and **shall not**
