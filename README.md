@@ -22,7 +22,11 @@ src/core/protocol.py
 it is the number you discount.
 
 **Three hundred and sixty-six transitive dependents, at a depth of eleven, with
-thirty-six of them untested.** That is the same change.
+thirty-six of them reached by no test.** That is the same change.
+
+Not all 366 will break. They are what the change can reach — the potential impact
+surface, derived statically. That is the set worth bounding before you decide how
+careful to be.
 
 ---
 
@@ -112,8 +116,11 @@ That is an **upper bound on real assertion coverage**, and the tool says so in
 the `coverage.method` field a consumer actually reads — not in a footnote. A test
 that can reach a module has not necessarily asserted anything about it.
 
-It is still the right signal for this purpose: a file no test can even reach is
-certainly not protected.
+It is still the right signal for this purpose, with the negative stated as
+carefully as the positive: a file outside the covered set has no *graph-visible*
+test behind it. That is not proof it is unprotected — a test may reach it through
+runtime imports, subprocess invocation, a plugin registry, or an end-to-end suite,
+none of which this model sees. What you get is a bounded set of places to look.
 
 ---
 
