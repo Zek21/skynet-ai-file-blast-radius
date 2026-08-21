@@ -480,10 +480,20 @@ def test_coverage_counts_the_target_itself_in_the_population(chain_repo):
 
 
 def test_coverage_is_declared_as_reachability_not_assertion_coverage(chain_repo):
-    """The honest caveat travels WITH the number, not in a README nobody reads."""
+    """The honest caveat travels WITH the number, not in a README nobody reads.
+
+    This previously asserted the method described itself as an "upper bound". A
+    reviewer pointed out that claim contradicts the tool's own documented blind
+    spots: graph reachability over-counts (reach is not assertion) AND
+    under-counts (runtime import, subprocess, plugin registry are unmodelled).
+    Wrong in both directions is a proxy, so the payload must not claim a bound.
+    """
     res = atlas.blast("tools/leaf.py")
-    assert "reachability" in res["coverage"]["method"]
-    assert "upper bound" in res["coverage"]["method"].lower()
+    method = res["coverage"]["method"].lower()
+    assert "reachability" in method
+    assert "proxy" in method
+    assert "not a bound" in method
+    assert "upper bound" not in method
 
 
 def test_test_files_are_dependents_but_are_excluded_from_the_reach_term(chain_repo):

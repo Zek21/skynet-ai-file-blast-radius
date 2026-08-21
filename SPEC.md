@@ -219,9 +219,12 @@ The uncovered members are the actionable output.*
 and **shall** state its limitations.
 
 *Rationale: graph reachability from a test file establishes that a test can reach
-the code, not that it asserts anything about it. The reference implementation
-labels this "Upper bound on real assertion coverage" in its own output, in the
-same field a consumer reads.*
+the code, not that it asserts anything about it. It is also not a bound in the
+other direction: a test may reach code by runtime import, subprocess invocation or
+a plugin registry, none of which the graph models. A measure that is wrong in both
+directions is a PROXY, and an implementation that advertises it as an upper bound
+contradicts its own stated blind spots. The reference implementation says so in
+the same field a consumer reads.*
 
 **7.3** The analyser **shall not** report a target as covered solely because
 tests exist in the tree.

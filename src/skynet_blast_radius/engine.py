@@ -936,10 +936,18 @@ def build_dep_graph(index: dict) -> dict:
 def _test_reachable(graph: dict) -> set:
     """Every file some test file can reach through import/path edges.
 
-    This is REACHABILITY, not assertion coverage: it says a test loads the file,
-    not that a test asserts anything about it. It is therefore an upper bound,
-    and the payload says so. An upper bound is still decisive in the direction
-    that matters -- a file NOT in this set has no test standing behind it at all.
+    This is REACHABILITY, not assertion coverage: it says a test can load the
+    file, not that a test asserts anything about it.
+
+    It is a PROXY, not a bound, and it is wrong in both directions. It
+    OVER-counts, because reaching a module is not testing it. It also
+    UNDER-counts, because a test may arrive by runtime import, subprocess
+    invocation or a plugin registry -- none of which these edges model. Calling
+    it an upper bound would be tidier and would contradict the blind spots this
+    module documents elsewhere.
+
+    A file outside this set therefore has no GRAPH-VISIBLE test behind it, which
+    is a bounded set of places to go and look rather than a verdict.
     """
     seen = {rel for rel in graph["forward"] if rel.startswith(TEST_PREFIX)}
     queue = deque(seen)
@@ -1068,8 +1076,17 @@ def radius_coverage(graph: dict, target: str, transitive: dict) -> dict:
     covered = [rel for rel in population if rel in reachable]
     uncovered = [rel for rel in population if rel not in reachable]
     return {
+        # NOT "an upper bound". It was described that way until a reviewer pointed
+        # out the description contradicts this tool's own documented blind spots.
+        # It over-counts (a test that REACHES a module need not assert anything
+        # about it) and it can under-count (a test may reach code via runtime
+        # imports, subprocess invocation, or a plugin registry, none of which the
+        # graph models). Wrong in both directions is a proxy, not a bound, and
+        # calling it a bound invites arithmetic nobody can make come out.
         "method": ("test-reachability over the import/path graph: a file is covered when "
-                   "some tests/ file can reach it. Upper bound on real assertion coverage"),
+                   "some tests/ file can reach it. A PROXY, not a bound: it over-counts "
+                   "reach-without-assertion and under-counts tests that arrive by "
+                   "runtime import, subprocess or plugin registry"),
         "population": len(population),
         "covered_count": len(covered),
         "uncovered_count": len(uncovered),

@@ -112,9 +112,13 @@ see when that has happened.
 Coverage here is **test-reachability over the dependency graph**: a file is
 covered when some file under your test root can reach it.
 
-That is an **upper bound on real assertion coverage**, and the tool says so in
-the `coverage.method` field a consumer actually reads — not in a footnote. A test
-that can reach a module has not necessarily asserted anything about it.
+That is a **proxy, not a bound**, and the tool says so in the `coverage.method`
+field a consumer actually reads rather than in a footnote. It is wrong in both
+directions: it **over-counts**, because a test that can reach a module need not
+assert anything about it, and it **under-counts**, because a test may arrive by
+runtime import, subprocess invocation or a plugin registry — mechanisms this
+graph does not model. Calling it an upper bound would be tidier and would
+contradict the tool's own documented blind spots.
 
 It is still the right signal for this purpose, with the negative stated as
 carefully as the positive: a file outside the covered set has no *graph-visible*
@@ -209,9 +213,10 @@ differently-scoped counts printed without their scope is how a reader concludes
 the tool is lying.
 
 **Coverage is reachability, not assertion.** A test that imports a module marks
-it covered even if it asserts nothing about it. This is an upper bound, and it is
-only decisive in one direction: a file *outside* the covered set has no test
-behind it at all.
+it covered even if it asserts nothing about it. This is a proxy, wrong in both
+directions — it also misses tests arriving by runtime import, subprocess or
+plugin registry. A file outside the covered set has no *graph-visible* test
+behind it: somewhere to look, not a verdict.
 
 **Scores are comparable within a tree, not across trees** — see the calibration
 note above. On a very small repository the calibration saturates and the score
