@@ -177,6 +177,22 @@ The reference implementation uses `min(1, log10(1+raw)/log10(1+saturation))`.*
 
 **6.6** Band thresholds **shall** be reported alongside the band.
 
+**6.7** Scores derived from tree-local calibration **shall not** be presented as
+comparable between different trees, and documentation **shall** state this.
+
+*Rationale: this follows directly from 6.4 and is the obvious thing to get wrong.
+If the scale is the analysed tree's own 95th percentile, then equal scores in two
+repositories are two different measurements sharing a number. Ranking files
+within a codebase is supported; ranking codebases against each other is not.*
+
+**6.8** Where calibration saturates such that the score no longer discriminates —
+characteristically on a very small tree — the reported calibration block **shall**
+make that visible.
+
+*Rationale: on a tree of a few files the 95th percentile approaches the maximum,
+every file normalises to 1.0, and the scale silently collapses. A consumer must
+be able to detect this from the output rather than by intuition.*
+
 **6.7** The reference scoring function, given here as an existence proof rather
 than as a requirement:
 
@@ -225,6 +241,17 @@ the specific uncovered files.
 **8.4** Human-readable output **shall** remain available and **shall not** be a
 dump of the JSON.
 
+**8.6** Where an implementation reports more than one measure of the same
+apparent quantity — for example a loose textual mention count alongside a strict
+graph-derived dependent count — it **shall** report them under distinct names and
+**shall** document that they are not interchangeable and must not be summed.
+
+*Rationale: the reference implementation prints `fan_in=94` beside `11 direct` for
+the same file. Both are correct and they measure different things: the first
+counts any file mentioning the module, including in a comment; the second counts
+edges derived from the syntax tree. Presented without explanation, a reader
+reasonably concludes one of them is a bug.*
+
 **8.5** Analysis of a tree of at least 1,000 files **should** complete in under
 30 seconds on commodity hardware. Any cache **shall** produce results identical
 to a cold run.
@@ -247,8 +274,11 @@ to a cold run.
 | 6.4 | calibration derived and reported | `risk.calibration` |
 | 7.1 | uncovered members named | `coverage.uncovered` |
 | 7.2 | method and limits stated | `coverage.method` |
+| 6.7 | not comparable across trees | documented in README + `risk.calibration` |
+| 6.8 | saturation visible in output | `risk.calibration` block |
 | 8.1 | schema version present | `schema_version` |
 | 8.3 | gate names the files | `gate_message` |
+| 8.6 | distinct measures named distinctly | `fan_in` vs `transitive.direct_count` |
 
 ## Annex B (informative) — Worked example
 
