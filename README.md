@@ -256,6 +256,22 @@ field or flag where it does not.
 pytest tests/     # 98 tests
 ```
 
+---
+
+## Supporting this
+
+An impact analyser is only worth running if its graph keeps pace with how people
+actually write imports. This one shipped believing every project looked like the
+repository it grew up in, and two import forms were invisible until it was
+pointed somewhere else. Every layout it has not seen yet is the same bug waiting.
+
+If it stops you shipping a change whose radius you had not measured:
+**[paypal.me/exzilcalanza](https://paypal.me/exzilcalanza)**
+
+Sponsorship, not equity or investment — it buys no stake and no influence over
+what ships. A repository layout that produces a wrong number is worth more than
+money: open an issue with the shape and it becomes a test.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
