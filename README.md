@@ -13,8 +13,8 @@ src/core/protocol.py
   dependents: 366 transitive (11 direct) | code=169 tests=197 | max depth 11
   spread: d1=11 d2=12 d3=38 d4=38 d5=38 d6=38 d7=55 d8=91 d9=37 d10=7 d11=1
   coverage: 134/170 reachable from tests, 36 untested
-    untested: src/adapters/anti_detection.py
-    untested: src/probes/aspect_probe.py
+    untested: src/adapters/legacy_export.py
+    untested: src/probes/viewport_probe.py
     ...
 ```
 
@@ -93,6 +93,14 @@ percentile of transitive dependent count and cascade depth across every Python
 file in *your* tree, recomputed per run and reported in `risk.calibration`. A
 constant tuned for a 200-file project is wrong for a 5,000-file one.
 
+**This makes scores comparable inside one tree, and NOT between two.** Because
+the scale is derived from the tree it measures, a 73 in one repository and a 73
+in another are two different measurements wearing the same number. Rank files
+against their own codebase; do not rank codebases against each other. On a very
+small tree the 95th percentile saturates almost everything and the score stops
+discriminating at all — the calibration block is reported precisely so you can
+see when that has happened.
+
 ---
 
 ## Honesty about coverage
@@ -167,6 +175,41 @@ blast-radius pack path/to/file.py --question "is this patch safe?"
 dependents, and the uncovered ones — for handing to a reviewer or a model.
 Bounded on purpose: a packet that does not fit in a reviewer's attention is a
 packet that was not read.
+
+---
+
+## Limitations
+
+Read these before quoting a number from this tool.
+
+**`fan_in` and the direct-dependent count are different measurements.** In the
+sample output above, `fan_in=94` sits next to `11 direct`. That is not a bug and
+they are not interchangeable. `fan_in` is a deliberately loose *mention* count —
+it includes a file that merely names the module in a comment or a docstring — and
+it is kept because it is a useful "who talks about this at all" signal. The
+graph, and therefore every transitive number, uses strict AST-derived edges only.
+Both are printed side by side. **Never add them together**, and when you want
+"who would break", the direct count is the one you mean.
+
+**Coverage is reachability, not assertion.** A test that imports a module marks
+it covered even if it asserts nothing about it. This is an upper bound, and it is
+only decisive in one direction: a file *outside* the covered set has no test
+behind it at all.
+
+**Scores are comparable within a tree, not across trees** — see the calibration
+note above. On a very small repository the calibration saturates and the score
+stops discriminating.
+
+**Ambiguous module stems resolve deterministically, which can be wrong.** When
+two files share a stem, a bare `import thing` picks one candidate by a fixed
+precedence. If the other was meant, that edge is wrong. The count is reported as
+`graph_stats.ambiguous_stems` so you can see how much of the graph is exposed to
+this.
+
+**A cold run parses everything.** On a ~1,200-file tree the first build takes
+seconds; subsequent runs reuse an incremental per-file index and complete in
+well under a second. The index is invalidated per file by mtime and size, and a
+cold run and a warm run are asserted to produce identical output.
 
 ---
 
