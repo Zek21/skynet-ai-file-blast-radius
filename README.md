@@ -204,8 +204,9 @@ Both are printed side by side. **Never add them together**, and when you want
 
 **Three counts, three populations.** `366 transitive` includes the 197 test
 files. `reach=169` is the non-test subset and is what feeds the risk score —
-traversal stops at tests: the analyser treats them as sinks, assuming production
-code does not depend on the suite.
+traversal stops at tests, which is an architectural assumption about the tree
+being analysed (that production code does not depend on the suite) rather than a
+property of trees in general.
 `coverage 134/170` ranges over those 169 non-test dependents plus the target
 itself; tests are excluded on that same assumption. And
 `max_reach_observed=308` is the largest non-test reach in the repository, so it
@@ -242,7 +243,8 @@ cold run and a warm run are asserted to produce identical output.
 [SPEC.md](SPEC.md) is a numbered, testable specification in the structure IEEE
 standards use. It is **not** an IEEE-published standard and does not claim to be;
 it is written so it could be reviewed under that process, which mostly means one
-discipline: every `shall` maps to an executable test in Annex A.
+discipline: all 27 `shall` clauses carry an Annex A row naming the test that
+covers them.
 
 ```bash
 pytest tests/     # 98 tests
