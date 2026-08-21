@@ -198,6 +198,16 @@ graph, and therefore every transitive number, uses strict AST-derived edges only
 Both are printed side by side. **Never add them together**, and when you want
 "who would break", the direct count is the one you mean.
 
+**Three counts, three populations.** `366 transitive` includes the 197 test
+files. `reach=169` is the non-test subset and is what feeds the risk score —
+traversal stops at tests, because nothing in production depends on a test.
+`coverage 134/170` ranges over those 169 non-test dependents plus the target
+itself; tests are excluded because tests do not need tests. And
+`max_reach_observed=308` is the largest non-test reach in the repository, so it
+is compared against 169, not 366. None of these contradict each other, but three
+differently-scoped counts printed without their scope is how a reader concludes
+the tool is lying.
+
 **Coverage is reachability, not assertion.** A test that imports a module marks
 it covered even if it asserts nothing about it. This is an upper bound, and it is
 only decisive in one direction: a file *outside* the covered set has no test
