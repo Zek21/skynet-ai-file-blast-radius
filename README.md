@@ -101,11 +101,12 @@ constant tuned for a 200-file project is wrong for a 5,000-file one.
 the scale is derived from the tree it measures, a 73 in one repository and a 73
 in another are two different measurements wearing the same number. Rank files
 against their own codebase; do not rank codebases against each other. On a very
-small tree the scale flattens: measured on synthetic trees, a 22-file tree
-produced a reach saturation of 1 (below an 8-file tree's 6, so not even
-monotonic) and put 20 of 22 files in a single band. Nothing saturates upward;
-the discrimination is what is lost. The calibration block is reported so you can
-see it happening.
+small tree the scale can flatten: in synthetic hub-and-importer trees, a 22-file
+tree produced a reach saturation of 1 (below an 8-file tree's 6, so not even
+monotonic) and put 20 of 22 files in a single band. Nothing saturated upward
+there; discrimination was what was lost. Whether that holds for other small-tree
+topologies was not measured. The calibration block is reported so you can see it
+happening in your tree.
 
 ---
 
