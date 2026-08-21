@@ -215,8 +215,9 @@ make that visible.
 every file normalises to 1.0, and the scale silently collapses. A consumer must
 be able to detect this from the output rather than by intuition.*
 
-**6.7** The reference scoring function, given here as an existence proof rather
-than as a requirement:
+**6.9** The reference scoring function, given here as an existence proof rather
+than as a requirement (informative, not normative — it contains no *shall* and is
+not listed in Annex A):
 
 ```
 score = 100 * (0.35*reach + 0.30*uncovered + 0.20*depth + 0.15*entrypoint)
