@@ -8,8 +8,10 @@
 Written in the structure and language conventions used by IEEE standards
 (IEEE Std 830 / 1016 / 29148 lineage). It is **not** an IEEE-published standard
 and makes no claim to that status. It is prepared so that it *could* be reviewed
-under that process: every normative statement is numbered, testable, and mapped
-in Annex A to an executable test.
+under that process: every normative statement is numbered, checkable, and carries
+an Annex A row naming the evidence that satisfies it — an executable test where
+the requirement reduces to one, an inspectable artifact or output field where it
+does not.
 
 ---
 
@@ -58,7 +60,9 @@ concludes the tool is broken.
 ### 1.4 Conformance
 
 An implementation is conforming if it satisfies every *shall* in Clauses 4
-through 8 and passes the corresponding tests in Annex A.
+through 8 and satisfies the corresponding Annex A evidence row — passing the
+named test where the row cites one, and exhibiting the named artifact where it
+does not.
 
 Clauses 4–8 contain **27** *shall*-bearing clauses, and Annex A contains **27**
 matching rows — a verified one-to-one correspondence.
@@ -284,7 +288,7 @@ to a cold run.
 
 ---
 
-## Annex A (normative) — Conformance test mapping
+## Annex A (normative) — Conformance evidence mapping
 
 | Clause | Requirement | Test |
 |--------|-------------|------|

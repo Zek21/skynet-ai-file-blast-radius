@@ -243,8 +243,9 @@ cold run and a warm run are asserted to produce identical output.
 [SPEC.md](SPEC.md) is a numbered, testable specification in the structure IEEE
 standards use. It is **not** an IEEE-published standard and does not claim to be;
 it is written so it could be reviewed under that process, which mostly means one
-discipline: all 27 `shall` clauses carry an Annex A row naming the test that
-covers them.
+discipline: all 27 `shall` clauses carry an Annex A row naming their evidence —
+an executable test where the requirement reduces to one, an inspectable output
+field or flag where it does not.
 
 ```bash
 pytest tests/     # 98 tests
