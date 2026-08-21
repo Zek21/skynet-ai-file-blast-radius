@@ -223,10 +223,6 @@ That is evidence from three fixtures of one topology, not a general law about
 small trees; the requirement is that the output expose the condition, whatever
 produces it.*
 
-*Rationale: on a tree of a few files the 95th percentile approaches the maximum,
-every file normalises to 1.0, and the scale silently collapses. A consumer must
-be able to detect this from the output rather than by intuition.*
-
 **6.9** The reference scoring function, given here as an existence proof rather
 than as a requirement (informative, not normative — it contains no *shall* and is
 not listed in Annex A):
