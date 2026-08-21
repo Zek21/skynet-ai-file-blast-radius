@@ -86,7 +86,8 @@ Every term is normalised to [0,1] and reported with its raw value, so you can
 disagree with a specific term rather than with the number.
 
 - **reach** — transitive non-test dependents, scaled `log10(1+raw)/log10(1+sat)`.
-  Sub-linear on purpose: 5 → 50 dependents matters far more than 300 → 350.
+  Sub-linear on purpose, encoding the assumption that 5 → 50 dependents changes
+  the risk more than 300 → 350. That is a design judgement, not a measurement.
 - **uncovered** — share of the radius no test reaches.
 - **depth** — deepest cascade hop; the part a reviewer cannot see.
 - **entrypoint** — 1.0 if a governing document names the file, 0.5 for a registry

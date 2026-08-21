@@ -199,8 +199,9 @@ the tree its author happened to be working in. The reference implementation uses
 transitive dependent count and of cascade depth measured over every Python file
 in the tree, and reports both the percentile and the resulting saturation values.*
 
-**6.5** Reach **should** be scaled sub-linearly. *Rationale: the difference
-between 5 and 50 dependents is far more significant than between 300 and 350.
+**6.5** Reach **should** be scaled sub-linearly. *Rationale: this encodes an
+assumption -- that the difference between 5 and 50 dependents matters more than
+between 300 and 350 -- rather than an established result.
 The reference implementation uses `min(1, log10(1+raw)/log10(1+saturation))`.*
 
 **6.6** Band thresholds **shall** be reported alongside the band.
