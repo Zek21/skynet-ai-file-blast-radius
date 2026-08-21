@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skynet-ai-file-blast-radius"
+version = "2.0.0"
+description = "Before you edit a file: what else breaks, how far does it cascade, and is any of it tested?"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Exzil Calanza" }]
+keywords = ["static-analysis", "impact-analysis", "blast-radius", "dependency-graph", "code-review", "risk"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Quality Assurance",
+]
+
+# No runtime dependencies: this analyses source trees with `ast`, and a tool you
+# run before touching a repository should not itself add anything to it.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.urls]
+Homepage = "https://github.com/Zek21/skynet-ai-file-blast-radius"
+Specification = "https://github.com/Zek21/skynet-ai-file-blast-radius/blob/master/SPEC.md"
+
+[project.scripts]
+blast-radius = "skynet_blast_radius.engine:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
