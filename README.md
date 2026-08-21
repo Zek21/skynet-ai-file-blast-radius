@@ -12,9 +12,9 @@ src/core/protocol.py
   risk=76.3 CRITICAL | tier=HIGH fan_in=94 tested=True
   dependents: 366 transitive (11 direct) | code=169 tests=197 | max depth 11
   spread: d1=11 d2=12 d3=38 d4=38 d5=38 d6=38 d7=55 d8=91 d9=37 d10=7 d11=1
-  coverage: 134/170 reachable from tests, 36 untested
-    untested: src/adapters/legacy_export.py
-    untested: src/probes/viewport_probe.py
+  coverage: 134/170 reachable from tests, 36 graph-unreached
+    graph-unreached: src/adapters/legacy_export.py
+    graph-unreached: src/probes/viewport_probe.py
     ...
 ```
 
@@ -22,7 +22,7 @@ src/core/protocol.py
 it is the number you discount.
 
 **Three hundred and sixty-six transitive dependents, at a depth of eleven, with
-thirty-six of them reached by no test.** That is the same change.
+thirty-six of them reached by no test through the import graph.** That is the same change.
 
 Not all 366 will break. They are what the change can reach — the potential impact
 surface, derived statically. That is the set worth bounding before you decide how
@@ -68,7 +68,7 @@ blast-radius src/core/protocol.py --why src/ui/panel.py
 **Gate a change in CI:**
 
 ```bash
-blast-radius src/core/protocol.py --gate   # exit 2 when the radius is wide and untested
+blast-radius src/core/protocol.py --gate   # exit 2 when wide and not reached by tests
 ```
 
 The gate message names the specific uncovered files. A gate that fails without

@@ -1287,7 +1287,7 @@ def blast_gate(result: dict) -> tuple:
     if band in ("CRITICAL", "HIGH") and coverage.get("uncovered_count"):
         transitive = result.get("transitive") or {}
         return False, (f"{result['path']}: risk={result.get('risk_score')} band={band} with "
-                       f"{coverage['uncovered_count']} untested file(s) in a radius of "
+                       f"{coverage['uncovered_count']} graph-unreached file(s) in a radius of "
                        f"{transitive.get('count', 0)} dependents. First uncovered: "
                        f"{', '.join(coverage.get('uncovered', [])[:5])}")
     return True, (f"{result['path']}: tier={result.get('tier')} "
@@ -1336,10 +1336,10 @@ def build_packet(targets: list, question: str, out_dir: Path,
             line.append(f"Blast radius: risk={b['risk_score']} ({b['risk_band']}), "
                         f"{tr['direct_count']} direct -> {tr['count']} transitive dependents "
                         f"to depth {tr['max_depth']}, {cov['uncovered_count']} of "
-                        f"{cov['population']} untested"
+                        f"{cov['population']} graph-unreached"
                         + (f" -- {'; '.join(b['reasons'])}" if b["reasons"] else ""))
             if cov["uncovered"]:
-                line.append(f"Untested in radius: {', '.join(cov['uncovered'][:8])}")
+                line.append(f"Graph-unreached in radius: {', '.join(cov['uncovered'][:8])}")
             if b["radius"]["tests"]:
                 line.append(f"Tests: {', '.join(b['radius']['tests'][:6])}")
         sections.append(chr(10).join(line))
@@ -1469,9 +1469,9 @@ def _human_blast(d: dict) -> None:
         spread = " ".join(f"d{k}={tr['by_depth'][k]}" for k in sorted(tr["by_depth"], key=int))
         lines.append(f"  spread: {spread}")
     lines.append(f"  coverage: {cov['covered_count']}/{cov['population']} reachable from "
-                 f"tests, {cov['uncovered_count']} untested")
+                 f"tests, {cov['uncovered_count']} graph-unreached")
     for rel in cov["uncovered"][:8]:
-        lines.append(f"    untested: {rel}")
+        lines.append(f"    graph-unreached: {rel}")
     if len(cov["uncovered"]) > 8:
         lines.append(f"    ... and {len(cov['uncovered']) - 8} more (--json for all)")
     for r in d["reasons"]:
@@ -1520,7 +1520,7 @@ def _build_parser() -> argparse.ArgumentParser:
                              help="transitive blast radius, coverage and risk score")
     p_blast.add_argument("path")
     p_blast.add_argument("--gate", action="store_true",
-                         help="exit 2 when the radius is wide and untested")
+                         help="exit 2 when the radius is wide and not reached by tests")
     p_blast.add_argument("--max-depth", type=int, default=None,
                          help="stop the cascade after N hops (default: unbounded)")
     p_blast.add_argument("--max-listed", type=int, default=None,
