@@ -60,13 +60,16 @@ concludes the tool is broken.
 An implementation is conforming if it satisfies every *shall* in Clauses 4
 through 8 and passes the corresponding tests in Annex A.
 
-Annex A maps **all 28** *shall* clauses in Clauses 4–8 to an executable test.
+Clauses 4–8 contain **27** *shall*-bearing clauses, and Annex A contains **27**
+matching rows — a verified one-to-one correspondence.
 
-That sentence is only worth writing because it has been counted. An earlier
-revision of this document made the same claim while **ten** clauses — 4.2, 5.3,
-5.6, 6.2, 6.3, 6.6, 7.3, 8.2, 8.4 and 8.5 — had no entry in Annex A at all. A
-traceability claim nobody has audited is exactly the kind of assertion this
-specification exists to discourage.
+That sentence is only worth writing because it has been counted, twice. An
+earlier revision claimed every *shall* was mapped while **ten** — 4.2, 5.3, 5.6,
+6.2, 6.3, 6.6, 7.3, 8.2, 8.4 and 8.5 — had no Annex A entry at all. The revision
+after that fixed the mapping and then reported the total as 28, because the
+counting script matched prose outside the numbered clauses. A traceability claim
+nobody has audited is exactly the kind of assertion this specification exists to
+discourage, and it took two passes to stop making it.
 
 One caveat remains explicit: clause 8.5 couples a *should* about wall-clock
 performance with a *shall* about cache correctness. Only the latter is mapped, to

@@ -164,3 +164,33 @@ class TestNoSkynetCoupling:
         assert not atlas.REGISTRY_PATH.exists()
         result = atlas.blast("src/mypkg/transport.py")
         assert result["ok"] is True
+
+
+class TestAmbiguityIsReported:
+    """A dropped edge that is never counted is invisible to the reader.
+
+    `_module_map` discards a dotted name claimed by two files rather than
+    guessing which one was meant. That is the right call, but the count was
+    computed and then thrown away for several revisions, while the documentation
+    claimed it was reported. An unreported exclusion is indistinguishable from an
+    edge that never existed.
+    """
+
+    def test_dotted_collisions_are_counted_in_graph_stats(self, tmp_path):
+        (tmp_path / "src" / "a").mkdir(parents=True)
+        (tmp_path / "lib" / "a").mkdir(parents=True)
+        (tmp_path / "tests").mkdir()
+        for root in ("src", "lib"):
+            (tmp_path / root / "a" / "__init__.py").write_text("", encoding="utf-8")
+            (tmp_path / root / "a" / "mod.py").write_text("VALUE = 1\n", encoding="utf-8")
+        (tmp_path / "src" / "user.py").write_text(
+            "from a.mod import VALUE\n", encoding="utf-8")
+
+        atlas.set_root(tmp_path)
+        atlas._GRAPH_CACHE.clear()
+        result = atlas.blast("src/a/mod.py")
+        atlas._GRAPH_CACHE.clear()
+
+        assert "ambiguous_dotted" in result["graph_stats"]
+        assert result["graph_stats"]["ambiguous_dotted"] >= 1, \
+            "a dotted name claimed by two files must be counted, not silently dropped"

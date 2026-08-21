@@ -222,11 +222,12 @@ behind it: somewhere to look, not a verdict.
 note above. On a very small repository the calibration saturates and the score
 stops discriminating.
 
-**Ambiguous module stems resolve deterministically, which can be wrong.** When
-two files share a stem, a bare `import thing` picks one candidate by a fixed
-precedence. If the other was meant, that edge is wrong. The count is reported as
-`graph_stats.ambiguous_stems` so you can see how much of the graph is exposed to
-this.
+**Ambiguity is handled two different ways, and both are counted.** When two
+files share a bare stem, `import thing` picks one candidate by a fixed
+precedence — if the other was meant, that edge is wrong (`ambiguous_stems`).
+When two files claim the same *dotted* name, the edge is dropped rather than
+guessed (`ambiguous_dotted`). Both counts appear in `graph_stats`, because an
+exclusion nobody reports is indistinguishable from an edge that never existed.
 
 **A cold run parses everything.** On a ~1,200-file tree the first build takes
 seconds; subsequent runs reuse an incremental per-file index and complete in

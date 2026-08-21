@@ -924,6 +924,12 @@ def build_dep_graph(index: dict) -> dict:
         "forward": forward,
         "reverse": reverse,
         "ambiguous_stems": ambiguous,
+        # Dotted names claimed by two or more files, dropped rather than guessed
+        # (see _module_map). Computed since the src-layout fix and NOT exposed
+        # until a reviewer noticed the documentation promised a count the payload
+        # never carried. An unreported exclusion is indistinguishable from an
+        # edge that never existed.
+        "ambiguous_dotted": ambiguous_dotted,
         "edge_count": sum(len(e) for e in forward.values()),
     }
     graph["test_reachable"] = _test_reachable(graph)
@@ -1258,7 +1264,8 @@ def blast(target: str, index: dict | None = None, max_depth: int | None = None,
         "entrypoint": entrypoint,
         "risk": risk,
         "graph_stats": {"nodes": len(graph["nodes"]), "edges": graph["edge_count"],
-                        "ambiguous_stems": len(graph["ambiguous_stems"])},
+                        "ambiguous_stems": len(graph["ambiguous_stems"]),
+                        "ambiguous_dotted": len(graph.get("ambiguous_dotted") or ())},
     }
 
 
