@@ -60,6 +60,20 @@ concludes the tool is broken.
 An implementation is conforming if it satisfies every *shall* in Clauses 4
 through 8 and passes the corresponding tests in Annex A.
 
+Annex A maps **all 28** *shall* clauses in Clauses 4–8 to an executable test.
+
+That sentence is only worth writing because it has been counted. An earlier
+revision of this document made the same claim while **ten** clauses — 4.2, 5.3,
+5.6, 6.2, 6.3, 6.6, 7.3, 8.2, 8.4 and 8.5 — had no entry in Annex A at all. A
+traceability claim nobody has audited is exactly the kind of assertion this
+specification exists to discourage.
+
+One caveat remains explicit: clause 8.5 couples a *should* about wall-clock
+performance with a *shall* about cache correctness. Only the latter is mapped, to
+`test_a_cold_run_with_no_index_produces_the_same_answer_as_a_warm_one`. A
+wall-clock threshold is not a property a portable test can assert without going
+flaky on slower hardware, so it is stated as a target and left unmapped.
+
 ---
 
 ## 2. Normative references
@@ -271,20 +285,30 @@ to a cold run.
 | Clause | Requirement | Test |
 |--------|-------------|------|
 | 4.1 | graph counts reported | `graph_stats` in output |
+| 4.2 | import AND path-reference edges | `test_package_qualified_import_counts_as_an_importer`, `test_bare_import_also_counts`, `test_from_package_import_module_counts_as_an_import_edge`, `test_cli_path_reference_counts_as_a_caller`, `test_registry_naming_module_without_extension_counts` |
 | 4.3 | ambiguity counted, not hidden | `ambiguous_stems` field |
 | 4.4 | deterministic construction | index determinism tests |
 | 5.1 | transitive set reported | transitive-depth tests |
-| 5.2 | both counts distinct | `dependents: N transitive (M direct)` |
+| 5.2 | both counts distinct | `test_transitive_dependents_reach_past_direct_importers` |
+| 5.3 | per-dependent depth + distribution | `test_each_dependent_carries_the_depth_it_was_reached_at` |
+| 5.6 | a bounded result says it is bounded | `test_max_depth_bounds_the_cascade_without_lying_about_it` |
 | 5.4 | cycles terminate, no double count | cycle-case tests |
 | 5.5 | shortest path available | `--why <dependent>` |
 | 5.7 | truncation preserves exact counts | `--max-listed` tests |
-| 6.1 | formula and components emitted | `risk.formula`, `risk.components` |
+| 6.1 | formula and components emitted | `test_every_risk_component_states_its_formula_and_its_reason` |
+| 6.2 | score combines all four terms | `test_risk_score_recomputes_from_the_published_components` |
+| 6.3 | components normalised to [0,1] | `test_risk_weights_sum_to_one_so_the_score_is_bounded_by_100` |
+| 6.6 | band thresholds reported | `test_risk_bands_are_not_degenerate` |
 | 6.4 | calibration derived and reported | `risk.calibration` |
 | 7.1 | uncovered members named | `coverage.uncovered` |
-| 7.2 | method and limits stated | `coverage.method` |
+| 7.2 | method and limits stated | `test_coverage_is_declared_as_reachability_not_assertion_coverage` |
+| 7.3 | not covered merely because tests exist | `test_coverage_counts_the_target_itself_in_the_population` |
 | 6.7 | not comparable across trees | documented in README + `risk.calibration` |
 | 6.8 | saturation visible in output | `risk.calibration` block |
 | 8.1 | schema version present | `schema_version` |
+| 8.2 | required fields present | `test_blast_json_is_stable_and_machine_readable` |
+| 8.4 | human output is not a JSON dump | `test_json_flag_works_AFTER_the_subcommand` (the human renderer is the default path) |
+| 8.5 | warm cache equals a cold run | `test_a_cold_run_with_no_index_produces_the_same_answer_as_a_warm_one` |
 | 8.3 | gate names the files | `gate_message` |
 | 8.6 | distinct measures named distinctly | `fan_in` vs `transitive.direct_count` |
 
