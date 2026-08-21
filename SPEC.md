@@ -290,7 +290,7 @@ to a cold run.
 
 ## Annex A (normative) — Conformance evidence mapping
 
-| Clause | Requirement | Test |
+| Clause | Requirement | Evidence (executable test, or named artifact) |
 |--------|-------------|------|
 | 4.1 | graph counts reported | `graph_stats` in output |
 | 4.2 | import AND path-reference edges | `test_package_qualified_import_counts_as_an_importer`, `test_bare_import_also_counts`, `test_from_package_import_module_counts_as_an_import_edge`, `test_cli_path_reference_counts_as_a_caller`, `test_registry_naming_module_without_extension_counts` |
