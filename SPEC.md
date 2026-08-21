@@ -39,10 +39,15 @@ reaches. A tool reporting only direct importers cannot distinguish these, yet it
 is the second-order dependents — the ones the reviewer never opens — where the
 regression actually lands.
 
-The reference implementation previously reported 120 direct importers for its
-own protocol module. The transitive dependent set is **366**, reached at a
-maximum depth of 11 hops. The first figure is not wrong; it is answering a
-different question from the one a reviewer is asking.
+Measured on one module of a real tree: **11 direct importers, 366 transitive
+dependents, maximum depth 11 hops, 36 of them reached by no test.** The first
+figure is not wrong. It is answering a different question from the one a reviewer
+is asking.
+
+The same module reports `fan_in=94` under a separate, deliberately loose mention
+count — a third number, measuring a third thing. Clause 8.6 exists because three
+plausible answers to "how many files depend on this" is precisely how a reader
+concludes the tool is broken.
 
 ### 1.3 Word usage
 
