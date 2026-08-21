@@ -213,8 +213,15 @@ If the scale is the analysed tree's own 95th percentile, then equal scores in tw
 repositories are two different measurements sharing a number. Ranking files
 within a codebase is supported; ranking codebases against each other is not.*
 
-**6.8** Where the calibration ceases to discriminate, the reported calibration
-block **shall** make that visible.
+**6.8** The reported calibration block **shall** expose the parameters and
+observations from which it was derived — at minimum the saturation constants, the
+percentile used, and the extreme values observed — so that anomalous scaling is
+inspectable.
+
+*It is not claimed that these parameters alone reveal a loss of discrimination.
+They are the inputs a reader needs in order to look; diagnosing that the scale has
+stopped separating anything requires examining the resulting distribution as
+well.*
 
 *Rationale: measured on synthetic hub-and-importer trees, a small tree produced
 saturation constants that were small and not monotonic (a 22-file tree yielded 1,
@@ -316,7 +323,7 @@ to a cold run.
 | 7.2 | method and limits stated | `test_coverage_is_declared_as_reachability_not_assertion_coverage` |
 | 7.3 | not covered merely because tests exist | `test_coverage_counts_the_target_itself_in_the_population` |
 | 6.7 | not comparable across trees | documented in README + `risk.calibration` |
-| 6.8 | saturation visible in output | `risk.calibration` block |
+| 6.8 | calibration parameters exposed | `risk.calibration` block (saturations, percentile, observed maxima) |
 | 8.1 | schema version present | `schema_version` |
 | 8.2 | required fields present | `test_blast_json_is_stable_and_machine_readable` |
 | 8.4 | human output is not a JSON dump | `test_json_flag_works_AFTER_the_subcommand` (the human renderer is the default path) |
