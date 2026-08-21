@@ -223,8 +223,8 @@ plugin registry. A file outside the covered set has no *graph-visible* test
 behind it: somewhere to look, not a verdict.
 
 **Scores are comparable within a tree, not across trees** — see the calibration
-note above. On a very small repository the calibration saturates and the score
-stops discriminating.
+note above. On a very small repository the scale flattens rather than saturating:
+measured, a 22-file tree put 20 of 22 files in one band.
 
 **Ambiguity is handled two different ways, and both are counted.** When two
 files share a bare stem, `import thing` picks one candidate by a fixed
