@@ -212,9 +212,10 @@ If the scale is the analysed tree's own 95th percentile, then equal scores in tw
 repositories are two different measurements sharing a number. Ranking files
 within a codebase is supported; ranking codebases against each other is not.*
 
-**6.8** Where calibration saturates such that the score no longer discriminates —
-characteristically on a very small tree — the reported calibration block **shall**
-make that visible.
+**6.8** Where the calibration ceases to discriminate — characteristically on a
+very small tree, where measurement shows the saturation constants become small
+and non-monotonic and the band distribution collapses toward one band — the
+reported calibration block **shall** make that visible.
 
 *Rationale: on a tree of a few files the 95th percentile approaches the maximum,
 every file normalises to 1.0, and the scale silently collapses. A consumer must
