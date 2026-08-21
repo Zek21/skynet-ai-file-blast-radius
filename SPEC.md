@@ -193,8 +193,9 @@ cascade depth (3.5), and entrypoint weight (3.9).
 **6.4** Saturation constants (3.10) **shall** be derived from the analysed tree
 rather than fixed in the source, and the derivation **shall** be reported.
 
-*Rationale: a constant appropriate for a 200-file repository is wrong for a
-5,000-file one. The reference implementation uses the 95th percentile of
+*Rationale: a fixed constant may fail to transfer between repositories unless it
+is independently justified, for instance derived from a corpus rather than from
+the tree its author happened to be working in. The reference implementation uses the 95th percentile of
 transitive dependent count and of cascade depth measured over every Python file
 in the tree, and reports both the percentile and the resulting saturation values.*
 

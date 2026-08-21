@@ -95,7 +95,8 @@ disagree with a specific term rather than with the number.
 **The saturation constants are measured, not invented.** They are the 95th
 percentile of transitive dependent count and cascade depth across every Python
 file in *your* tree, recomputed per run and reported in `risk.calibration`. A
-constant tuned for a 200-file project is wrong for a 5,000-file one.
+fixed constant may fail to transfer between repositories unless it was
+independently justified.
 
 **This makes scores comparable inside one tree, and NOT between two.** Because
 the scale is derived from the tree it measures, a 73 in one repository and a 73
