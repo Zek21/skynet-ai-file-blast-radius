@@ -292,13 +292,24 @@ to a cold run.
 
 Measured on the reference tree: 1,191 nodes, 2,055 edges.
 
-| Target | Direct | Transitive | Depth | Uncovered | Score | Band |
-|--------|--------|-----------|-------|-----------|-------|------|
-| protocol module | 94 | 366 | 11 | 36 | 76.3 | CRITICAL |
-| publisher | 11 | 22 | 5 | 0 | 43.5 | MEDIUM |
-| new leaf tool | 1 | 0 | 0 | 0 | 2.5 | LOW |
+`fan_in` and `direct` are shown in separate columns deliberately, per 8.6. An
+earlier revision of this annex placed `fan_in` under "Direct" and then described
+94 as the direct-importer count — violating the clause on the same page that
+defines it, which is a fair indication of how easily these three numbers are
+conflated.
 
-The first row is the case this specification exists for. Ninety-four direct
-importers is a number a reviewer can hold in mind and discount. Three hundred
-and sixty-six dependents at a depth of eleven, thirty-six of which no test
-reaches, is a different decision.
+| Target | fan_in (mentions) | Direct (graph) | Transitive | Depth | Uncovered | Score | Band |
+|--------|------------------|----------------|-----------|-------|-----------|-------|------|
+| protocol module | 94 | 11 | 366 | 11 | 36 of 170 | 76.3 | CRITICAL |
+| publisher | 18 | 11 | 22 | 5 | 0 of 8 | 43.5 | MEDIUM |
+| new leaf tool | 1 | 1 | 1 | 1 | 0 of 1 | 2.5 | LOW |
+
+The first row is the case this specification exists for. **Eleven** direct
+importers is a number a reviewer can hold in mind and discount. Three hundred and
+sixty-six transitive dependents at a depth of eleven, with thirty-six of the
+hundred and seventy files coverage ranges over reached by no test, is a different
+decision.
+
+Note that `fan_in` and `Direct` coincide for the leaf and diverge by 8.5× for the
+protocol module. The loose count is most misleading exactly where the stakes are
+highest.
