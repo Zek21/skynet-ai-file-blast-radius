@@ -244,7 +244,7 @@ it is written so it could be reviewed under that process, which mostly means one
 discipline: every `shall` maps to an executable test in Annex A.
 
 ```bash
-pytest tests/     # 97 tests
+pytest tests/     # 98 tests
 ```
 
 ## License
